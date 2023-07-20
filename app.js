@@ -22,6 +22,21 @@ app.get('/',function(req,res) {
     res.send({ x : "Hello World!"});
 });
 
+function print_request(req){
+    console.log("/=============  " + new Date() + "   =============/")
+    console.log(JSON.stringify(JSON.parse(JSON.stringify(req.body))))
+    console.log("\n") 
+}
+
+app.get('/api/webhook/debugger',function(req,res) {
+    print_request(req);
+    res.send({});
+});
+app.post('/api/webhook/debugger',function(req,res) { 
+    print_request(req);
+    res.send({});
+});
+
 
 app.use((req,res,next) =>{
     const error = new Error('Not found');
