@@ -17,5 +17,8 @@
    wa360.api.key=YOUR-WABA-API-KEY
    ```
 3. Run `npm run wabac`
+
+* _This script will set your waba webhoook to yout local serve. Once you are done remember to point your webhook to original API on your server_
+
    
  
