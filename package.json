@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "nmg": "node nodemon-ngrok.js",
+    "ngrok": "node nodemon-ngrok.js start",
     "start": "node start.js",
-    "startd": "node startd.js",
     "wabac": "node wabac.js"
   },
   "author": "",
