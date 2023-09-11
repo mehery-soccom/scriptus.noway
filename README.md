@@ -15,7 +15,7 @@
 1. Run your local service postman|admin|agent|bot|xms
 2. Type this on command prompt
 ```
-npm run nmg --SCRIPT start
+npm run ngrok
 ```
 
 # Waba Debugger
