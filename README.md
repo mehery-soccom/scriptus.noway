@@ -10,6 +10,14 @@
    ngrok.auth.token=YOUR-NGROK-AUTH-TOKEN
    ```
 
+
+# Webhook Debugger
+1. Run your local service postman|admin|agent|bot|xms
+2. Type this on command prompt
+```
+npm run nmg --SCRIPT start
+```
+
 # Waba Debugger
 1. Get your waba api key
 2. Paste key in `config/local.properties`
