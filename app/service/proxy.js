@@ -65,13 +65,15 @@ module.exports = function myProxy(host,options){
         // return;   
         //res.send({})
         //bodyParser.raw(req,res, function(){
+            let to = host + options.proxyReqPathResolver(req)
+            console.log("from: ",req.originalUrl)
+            console.log("   to:> ",to)
             proxy.web(req, res, {
                 secure :  false,
                 prependPath : true,
                 target: target ,
                 toProxy :  false,
               }, function(a,b,c,d,e){
-                console.log("====");
                 next(a,b,c,d,e);
               });
         //});

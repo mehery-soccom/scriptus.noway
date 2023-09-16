@@ -37,21 +37,22 @@ app.use('/postman/', customParser, proxy("http://127.0.0.1:8082/",{
 app.use('/admin/', customParser, proxy("http://127.0.0.1:8081/",{
     path : "/admin"
 }));
-app.use('/agent', proxy("http://127.0.0.1:8083/agent",{
+app.use('/agent', proxy("http://127.0.0.1:8083/",{
     path : "/agent"
 }));
-app.use('/bot', proxy("http://127.0.0.1:8084/bot",{
+app.use('/bot', proxy("http://127.0.0.1:8084/",{
     path : "/bot"
 }));
-app.use('/xms', proxy("http://127.0.0.1:8085/xms",{
+app.use('/xms', proxy("http://127.0.0.1:8085/",{
     path : "/xms"
 }));
 app.use('/demo/', customParser, proxy("http://127.0.0.1:8086/",{
     path : "/demo"
 }));
-app.use('/contak', proxy("http://127.0.0.1:8087/contak",{
+app.use('/contak', proxy("http://127.0.0.1:8087/",{
     path : "/contak"
 }));
+
 
 app.use(haltOnTimedout)
 
