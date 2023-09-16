@@ -66,13 +66,19 @@ module.exports = function myProxy(host,options){
         //res.send({})
         //bodyParser.raw(req,res, function(){
             let to = host + options.proxyReqPathResolver(req)
+            // let { hostname } = req;
+            // console.log('req',{
+            //     hostname
+            // })
             console.log("from: ",req.originalUrl)
             console.log("   to:> ",to)
             proxy.web(req, res, {
+                xfwd : true,
                 secure :  false,
                 prependPath : true,
                 target: target ,
                 toProxy :  false,
+                changeOrigin: false,
               }, function(a,b,c,d,e){
                 next(a,b,c,d,e);
               });

@@ -12,46 +12,46 @@ const timeout = require('connect-timeout')
 app.use(timeout('10s'))
 
 var customParser = bodyParser.json({type: function(req) {
+    console.log("customParser:bodyParser.json",req.headers['content-type'])
     if (req.headers['content-type'] === ""){
         return req.headers['content-type'] = 'application/json';
     }
     else if (typeof req.headers['content-type'] === 'undefined'){
         return req.headers['content-type'] = 'application/json';
-    }else{
+    } else {
         return req.headers['content-type'] = 'application/json';
     }
 }});
-
-app.use(bodyParser.urlencoded({limit: '50mb',extended: false}));
-app.use(bodyParser.json({limit: '50mb',extended: true}));
-app.use(bodyParser.text({limit: '50mb',extended: true}));
-app.use(bodyParser.raw({limit: '50mb'}));
 app.use(cookieParser());
-
 
 //app.use(require('connect-restreamer')());
 const proxy = require('./app/service/proxy');
-app.use('/postman/', customParser, proxy("http://127.0.0.1:8082/",{
+app.use('/postman/', proxy("http://127.0.0.1:8082/",{
     path : "/postman"
 }));
-app.use('/admin/', customParser, proxy("http://127.0.0.1:8081/",{
+app.use('/admin/', proxy("http://127.0.0.1:8081/",{
     path : "/admin"
 }));
-app.use('/agent', proxy("http://127.0.0.1:8083/",{
+app.use('/agent',proxy("http://127.0.0.1:8083/",{
     path : "/agent"
 }));
-app.use('/bot', proxy("http://127.0.0.1:8084/",{
+app.use('/bot',proxy("http://127.0.0.1:8084/",{
     path : "/bot"
 }));
-app.use('/xms', proxy("http://127.0.0.1:8085/",{
+app.use('/xms',proxy("http://127.0.0.1:8085/",{
     path : "/xms"
 }));
-app.use('/demo/', customParser, proxy("http://127.0.0.1:8086/",{
+app.use('/demo/', proxy("http://127.0.0.1:8086/",{
     path : "/demo"
 }));
 app.use('/contak', proxy("http://127.0.0.1:8087/",{
     path : "/contak"
 }));
+
+app.use(bodyParser.urlencoded({limit: '50mb',extended: false}));
+app.use(bodyParser.json({limit: '50mb',extended: true}));
+app.use(bodyParser.text({limit: '50mb',extended: true}));
+app.use(bodyParser.raw({limit: '50mb'}));
 
 
 app.use(haltOnTimedout)
