@@ -2,6 +2,7 @@ const config = require('@bootloader/config');
 const express = require('express');
 const router = express.Router();
 var Queue = require('node-persistent-queue') ;
+const clientapp = require('./../service/clientapp');
 
 var q = new Queue('./temp/webhook.sqlite') ;
 q.on('open',() => {
@@ -22,7 +23,6 @@ router.post('/setup/channel/webhook',(function(req,res) {
     res.send({});
 }));
 
-
 router.get('/ping',(function(req,res) {
     res.send({
         success : true,
@@ -35,8 +35,6 @@ router.get('/test/message/push',safely(function(req,res) {
         q.start();
     })
     res.send({});
-},{
-    printRequest :  true
 }));
 router.get('/test/message/poll',safely(function(req,res) {
     q.open().then((task)=>{
@@ -48,9 +46,15 @@ router.get('/test/message/poll',safely(function(req,res) {
        res.send(items);
     })
    
+}));
+
+router.post('/xms/inbound/webhook',safely(function(req,res) {
+    if(req.body)
+    clientapp.pushMessages(JSON.parse(JSON.stringify(req.body)));
 },{
     printRequest :  true
 }));
+
 router.get([`/test/*`,`/test`], cdn({
     viewName : "test", 
     CONST : {
@@ -60,6 +64,5 @@ router.get([`/test/*`,`/test`], cdn({
         CDN_VERSION: "5",
     }
 }));
-
 
 module.exports = router;
