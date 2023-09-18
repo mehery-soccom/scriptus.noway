@@ -45,7 +45,6 @@ router.get('/test/message/poll',safely(function(req,res) {
        }
        res.send(items);
     })
-   
 }));
 
 router.post('/xms/inbound/webhook',safely(function(req,res) {
