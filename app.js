@@ -47,6 +47,9 @@ app.use('/demo/', proxy("http://127.0.0.1:8086/",{
 app.use('/contak', proxy("http://127.0.0.1:8087/",{
     path : "/contak"
 }));
+app.use('/mxnode', proxy("http://127.0.0.1:3000/",{
+    path : "/mxnode"
+}));
 
 app.use(bodyParser.urlencoded({limit: '50mb',extended: false}));
 app.use(bodyParser.json({limit: '50mb',extended: true}));
