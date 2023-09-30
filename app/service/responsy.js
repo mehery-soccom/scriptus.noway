@@ -10,8 +10,12 @@ function throwInputException(status,fieldError){
     }
 }
 
-function printRequest(req){
-    console.log("/=============  " + new Date() + "   =============/"+req.body)
+function printRequest(req,{printHeaders}){
+    console.log("/=============  " + new Date() + "   =============/")
+    if(printHeaders){
+        console.log(JSON.stringify(req.headers));
+        console.log("/---------------------------------------------/")
+    }
     if(req.body)
         console.log(JSON.stringify(JSON.parse(JSON.stringify(req.body))))
     console.log("\n") 
@@ -98,7 +102,7 @@ module.exports = {
         return async (req, res, next) => {
             try {
                 if(options.printRequest){
-                    printRequest(req);
+                    printRequest(req,options);
                 }
                 await asyncFunction(req, res, next);
             }

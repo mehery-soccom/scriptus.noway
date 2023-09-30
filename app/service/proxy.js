@@ -1,3 +1,4 @@
+const config = require('@bootloader/config');
 //var proxy = require('express-http-proxy');
 // const { createProxyMiddleware } = require('http-proxy-middleware');
 var httpProxy = require('http-proxy');
@@ -19,7 +20,11 @@ proxy.on("error", function (err, req, res) {
 });
 
 proxy.on('proxyReq', function (proxyReq, req, res, options) {
-    //res.addHeader("connection",'upgrade')
+    const httpProxyStore = config.store("http-proxy");
+    for(let key in httpProxyStore.headers){
+        //console.log("proxyReq",key,httpProxyStore.headers[key]);
+        proxyReq.setHeader(key,httpProxyStore.headers[key]);
+    }
 });
 
 proxy.on('proxyRes', function (proxyRes, req, res) {

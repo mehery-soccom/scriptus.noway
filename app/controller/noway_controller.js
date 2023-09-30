@@ -26,9 +26,23 @@ router.post('/setup/channel/webhook',(function(req,res) {
 router.get('/ping',(function(req,res) {
     res.send({
         success : true,
-        public_url : config.store("ngrok").url
+        public_url : config.store("ngrok").url,
+        apiKey : config.get("mry.api.key"),
+        domain : config.get("mry.domain")
     });
 }));
+
+router.post('/ping',safely(function(req,res) {
+    res.send({
+        success : true,
+        public_url : config.store("ngrok").url,
+        apiKey : config.get("mry.api.key"),
+        domain : config.get("mry.domain")
+    });
+},{
+    printRequest :  true, printHeaders :  true
+}));
+
 router.get('/test/message/push',safely(function(req,res) {
     q.open().then(()=>{
         q.add({ time : Date.now(), type : "webhook"})
@@ -36,6 +50,7 @@ router.get('/test/message/push',safely(function(req,res) {
     })
     res.send({});
 }));
+
 router.get('/test/message/poll',safely(function(req,res) {
     q.open().then((task)=>{
        let items = [];
@@ -47,11 +62,22 @@ router.get('/test/message/poll',safely(function(req,res) {
     })
 }));
 
+router.get('/xms/inbound/point',(function(req,res) {
+    clientapp.initWebhook().then(function(resp){
+        res.send(resp);
+    });
+}));
+
 router.post('/xms/inbound/webhook',safely(function(req,res) {
     if(req.body)
-    clientapp.pushMessages(JSON.parse(JSON.stringify(req.body)));
-},{
-    printRequest :  true
+        clientapp.pushMessages(JSON.parse(JSON.stringify(req.body)));
+    res.send({});
+}));
+
+router.get('/xms/inbound/webhook',safely(function(req,res) {
+    clientapp.pollMessages().then(function(msgs){
+        res.send({ messages : msgs.map((msg)=>msg.msg) });
+    });
 }));
 
 router.get([`/test/*`,`/test`], cdn({

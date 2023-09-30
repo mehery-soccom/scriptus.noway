@@ -26,30 +26,41 @@ app.use(cookieParser());
 
 //app.use(require('connect-restreamer')());
 const proxy = require('./app/service/proxy');
-app.use('/postman/', proxy("http://127.0.0.1:8082/",{
-    path : "/postman"
-}));
-app.use('/admin/', proxy("http://127.0.0.1:8081/",{
-    path : "/admin"
-}));
-app.use('/agent',proxy("http://127.0.0.1:8083/",{
-    path : "/agent"
-}));
-app.use('/bot',proxy("http://127.0.0.1:8084/",{
-    path : "/bot"
-}));
-app.use('/xms',proxy("http://127.0.0.1:8085/",{
-    path : "/xms"
-}));
-app.use('/demo/', proxy("http://127.0.0.1:8086/",{
-    path : "/demo"
-}));
-app.use('/contak', proxy("http://127.0.0.1:8087/",{
-    path : "/contak"
-}));
-app.use('/mxnode', proxy("http://127.0.0.1:3000/",{
-    path : "/mxnode"
-}));
+
+const mappings = config.get("proxy.mappings").split(",").map((mapping)=>mapping.trim()).map(function(mapping){
+    let server = config.getIfPresent(`proxy.mapping.${mapping}.server`) ;
+    let context = config.getIfPresent(`proxy.mapping.${mapping}.context`) || mapping;
+    if(server){
+        app.use(`/${context}/`, proxy(`${server}/`,{
+            path : `/${context}`
+        }));
+    }
+});
+
+// app.use('/postman/', proxy("http://127.0.0.1:8082/",{
+//     path : "/postman"
+// }));
+// app.use('/admin/', proxy("http://127.0.0.1:8081/",{
+//     path : "/admin"
+// }));
+// app.use('/agent/', proxy("http://127.0.0.1:8083/",{
+//     path : "/agent"
+// }));
+// app.use('/bot/', proxy("http://127.0.0.1:8084/",{
+//     path : "/bot"
+// }));
+// app.use('/xms/', proxy("http://127.0.0.1:8085/",{
+//     path : "/xms"
+// }));
+// app.use('/demo/', proxy("http://127.0.0.1:8086/",{
+//     path : "/demo"
+// }));
+// app.use('/contak/', proxy("http://127.0.0.1:8087/",{
+//     path : "/contak"
+// }));
+// app.use('/mxnode/', proxy("http://127.0.0.1:3000/",{
+//     path : "/mxnode"
+// }));
 
 app.use(bodyParser.urlencoded({limit: '50mb',extended: false}));
 app.use(bodyParser.json({limit: '50mb',extended: true}));
@@ -65,12 +76,6 @@ app.use(haltOnTimedout)
 app.get('/',function(req,res) {
     res.send({ x : "Hello World!"});
 });
-
-function print_request(req){
-    console.log("/=============  " + new Date() + "   =============/")
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(req.body))))
-    console.log("\n") 
-}
 
 const noway_controller = require('./app/controller/noway_controller');
 
