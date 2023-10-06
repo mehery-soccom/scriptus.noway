@@ -73,15 +73,13 @@ app.use(haltOnTimedout)
 app.use(express.static('/api/routes'));
 app.use(haltOnTimedout)
 
+app.use(cors());
 app.get('/',function(req,res) {
     res.send({ x : "Hello World!"});
 });
-
 const noway_controller = require('./app/controller/noway_controller');
-
 app.use('/noway/',noway_controller);
 
-app.use(cors());
 app.use((req,res,next) =>{
     const error = new Error('Not found');
     error.status = 404;

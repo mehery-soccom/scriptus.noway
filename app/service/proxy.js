@@ -25,7 +25,7 @@ proxy.on("error", function (err, req, res) {
 
 proxy.on('proxyReq', function (proxyReq, req, res, options) {
     for(let key in httpProxyStore.headers){
-        console.log("proxyReq",key,httpProxyStore.headers[key]);
+       // console.log("proxyReq",key,httpProxyStore.headers[key]);
         proxyReq.setHeader(key,httpProxyStore.headers[key]);
     }
 });
@@ -46,7 +46,7 @@ function appendRequestHeader(key,value){
 }
 function init(){
     if(proxyFlags.initd) return;
-    console.log("initd......")
+    //console.log("initd......")
     const mappings = config.get("proxy.request.headers").split(",").map((mapping)=>mapping.trim()).map(function(mapping){
         let headerKey = config.getIfPresent(`proxy.request.header.${mapping}.key`);
         let headerValue = config.getIfPresent(`proxy.request.header.${mapping}.value`);
