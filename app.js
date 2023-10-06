@@ -8,9 +8,14 @@ const config = require('@bootloader/config');
 global.appRoot = path.resolve(__dirname);
 app.set("view engine", "ejs");
 
-const timeout = require('connect-timeout')
-app.use(timeout('10s'))
-
+app.use(cors());
+app.use(function (req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    next();
+});
+app.options('*', cors())
 var customParser = bodyParser.json({type: function(req) {
     console.log("customParser:bodyParser.json",req.headers['content-type'])
     if (req.headers['content-type'] === ""){
@@ -37,43 +42,13 @@ const mappings = config.get("proxy.mappings").split(",").map((mapping)=>mapping.
     }
 });
 
-// app.use('/postman/', proxy("http://127.0.0.1:8082/",{
-//     path : "/postman"
-// }));
-// app.use('/admin/', proxy("http://127.0.0.1:8081/",{
-//     path : "/admin"
-// }));
-// app.use('/agent/', proxy("http://127.0.0.1:8083/",{
-//     path : "/agent"
-// }));
-// app.use('/bot/', proxy("http://127.0.0.1:8084/",{
-//     path : "/bot"
-// }));
-// app.use('/xms/', proxy("http://127.0.0.1:8085/",{
-//     path : "/xms"
-// }));
-// app.use('/demo/', proxy("http://127.0.0.1:8086/",{
-//     path : "/demo"
-// }));
-// app.use('/contak/', proxy("http://127.0.0.1:8087/",{
-//     path : "/contak"
-// }));
-// app.use('/mxnode/', proxy("http://127.0.0.1:3000/",{
-//     path : "/mxnode"
-// }));
-
 app.use(bodyParser.urlencoded({limit: '50mb',extended: false}));
 app.use(bodyParser.json({limit: '50mb',extended: true}));
 app.use(bodyParser.text({limit: '50mb',extended: true}));
 app.use(bodyParser.raw({limit: '50mb'}));
 
-
-app.use(haltOnTimedout)
-
 app.use(express.static('/api/routes'));
-app.use(haltOnTimedout)
 
-app.use(cors());
 app.get('/',function(req,res) {
     res.send({ x : "Hello World!"});
 });
@@ -96,9 +71,5 @@ app.use((error,req,res,next) =>{
         }
     });
 });
-
-function haltOnTimedout (req, res, next) {
-    if (!req.timedout) next()
-  }
 
 module.exports = app;

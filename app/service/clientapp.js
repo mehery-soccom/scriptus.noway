@@ -70,7 +70,7 @@ const clientapp = {
           }).catch((e) => {  
             return e;
           }).then(function(json){
-            console.log("json.results[0]",json.results[0]);
+            console.log("json.results[0]",json?.results?.[0]);
             return json; 
           });
     },

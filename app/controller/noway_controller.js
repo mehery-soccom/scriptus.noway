@@ -64,6 +64,7 @@ router.get('/test/message/poll',safely(function(req,res) {
 
 router.get('/xms/inbound/point',(function(req,res) {
     clientapp.initWebhook().then(function(resp){
+        //res.send({ m : "ere"});
         res.send(resp);
     });
 }));
