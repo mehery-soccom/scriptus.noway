@@ -6,6 +6,7 @@ var Queue = require('node-persistent-queue') ;
 const noway = require("./noway");
 
 var q = new Queue('./temp/xmsinbound.sqlite') ;
+const serviceProxy = require('./proxy');
 // q.on('open',() => {
 // 	console.log('Opening SQLite DB') ;
 // 	console.log('Queue contains '+q.getLength()+' job/s') ;
@@ -98,10 +99,7 @@ noway.on("noway.started", function(){
     let tnts = domain.split(".")[0].split("/");
     return tnts[tnts.length-1]
   })(config.get("mry.domain"));
-  httpProxyStore.headers = {
-    ...httpProxyStore.headers || {},
-    tnt : tnt
-  };
+  headers = serviceProxy.appendRequestHeader('tnt',tnt)
 });
 
 module.exports = clientapp;

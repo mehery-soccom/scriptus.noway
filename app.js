@@ -31,7 +31,7 @@ const mappings = config.get("proxy.mappings").split(",").map((mapping)=>mapping.
     let server = config.getIfPresent(`proxy.mapping.${mapping}.server`) ;
     let context = config.getIfPresent(`proxy.mapping.${mapping}.context`) || mapping;
     if(server){
-        app.use(`/${context}/`, proxy(`${server}/`,{
+        app.use(`/${context}/`, proxy.forward(`${server}/`,{
             path : `/${context}`
         }));
     }
