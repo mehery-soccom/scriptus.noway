@@ -70,23 +70,16 @@ let ngrokspace = {
                                 url : tunnel.url()
                             });
                         } else {
-                            prompt.start();
-                            prompt.get(['NGROK_AUTH_TOKEN', 'NGROK_DOMAIN'], function (err, result){
-                                if (!fs.existsSync("./config/local.properties")) {
-                                    fs.writeFileSync("./config/local.properties",ngrokProperties({
-                                        token : result.NGROK_AUTH_TOKEN,
-                                        domain : result.NGROK_DOMAIN
-                                    }), function (err) {
-                                        if (err) throw err;
-                                    });
-                                }
-                                let {tunnel} = THAT.start_ngrok({
-                                    token : result.NGROK_AUTH_TOKEN,
-                                    domain : result.NGROK_DOMAIN
-                                }).then(()=>{
-                                    resolve({
-                                        url : tunnel.url()
-                                    });
+                            let values = await config.manifest({
+                                group : "NGROK",
+                                props : ['ngrok.domain','ngrok.auth.token']
+                            });
+                            let {tunnel} = THAT.start_ngrok({
+                                token : values['ngrok.auth.token'],
+                                domain : values['ngrok.domain']
+                            }).then(()=>{
+                                resolve({
+                                    url : tunnel.url()
                                 });
                             });
                         }
