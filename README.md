@@ -1,4 +1,4 @@
-# scriptus.demo
+# bootjs-demo
 
 ## SETUP
 1. Run `npm install`
@@ -12,7 +12,7 @@
 
 
 # Webhook Debugger
-1. Run your local service postman|admin|agent|bot|xms
+1. Run your local service 
 2. Type this on command prompt
 ```
 npm run ngrok
