@@ -142,7 +142,8 @@ module.exports = {
                 _options.CONST.CDN_DEBUG = true;
             }
             res.render(_options.viewName, {
-                ..._options.CONST
+                CONST : _options.CONST,
+                CONST_SCRIPT : 'window.CONST='+JSON.stringify(_options.CONST)
             });
         }
 
