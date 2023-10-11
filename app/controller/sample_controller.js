@@ -3,31 +3,42 @@ const sample_dao = require("../dao/sample_dao");
 const {safely, Response, throwInputException, status, cdn } = require('../service/responsy');
 const express = require('express');
 
-const router = express.Router();
+//const sample = express.Router();
 
-router.get('.json',(async function(req,res) {
-    let samples = await sample_dao.getAll();
-    res.send({
-        success : true,
-        results : samples
+module.exports = function(sample){
+    sample.path("/sample");
+
+    sample.get('/fetch',async function(req,res,next) {
+        // try {
+            let samples = await sample_dao.findAll();
+            res.send({
+                success : true,
+                results : samples
+            });
+        // } catch(e){
+        //     //
+        //     console.log(e);
+        // }
+        //next();
     });
-}));
-
-router.post('/',async function(req,res) {
-    res.send({
-        success : true,
-        results : []
+    
+    sample.post('/add',async function(req,res) {
+        res.send({
+            success : true,
+            results : []
+        });
     });
-});
-
-router.get([`/*`,`/`], cdn({
-    viewName : "sample", 
-    CONST : {
-        APP_TITLE : "Sample Title",
-        sampleData : {
-            sampleKey : "Sample Value"
+    
+    sample.get([`/*`,`/`], cdn({
+        viewName : "sample", 
+        CONST : {
+            APP_TITLE : "Sample Title",
+            sampleData : {
+                sampleKey : "Sample Value"
+            }
         }
-    }
-}));
+    }));
+    
+    console.log("sample",typeof sample,sample.name)
 
-module.exports = router;
+};

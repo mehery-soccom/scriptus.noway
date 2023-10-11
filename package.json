@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@bootloader/config": "^1.4.0",
+    "@bootloader/mongon": "^1.0.1",
     "@ngrok/ngrok": "^0.6.0",
     "abort-controller": "^3.0.0",
     "body-parser": "^1.19.0",

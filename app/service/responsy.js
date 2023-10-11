@@ -112,7 +112,11 @@ module.exports = {
                 }
                 console.error(e);
                 // TODO Log error internally
-                res.status(500).send("Server Error");
+                if(req.accepts( 'application/json' )){
+                    res.status(500).send({ errro : "Server Error", message : e.message });
+                } else {
+                    res.status(500).send( "Server Error");
+                }
             }
         }
     },

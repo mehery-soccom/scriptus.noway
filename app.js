@@ -5,9 +5,11 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 var path = require('path');
 const config = require('@bootloader/config');
+const timeout = require('connect-timeout')
 global.appRoot = path.resolve(__dirname);
 app.set("view engine", "ejs");
 
+app.use(timeout('10s'))
 app.use(cors());
 app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,6 +31,8 @@ var customParser = bodyParser.json({type: function(req) {
 }});
 app.use(cookieParser());
 
+
+app.use(haltOnTimedout)
 //app.use(require('connect-restreamer')());
 const proxy = require('./app/service/proxy');
 
@@ -53,11 +57,23 @@ app.get('/',function(req,res) {
     res.send({ x : "Hello World!"});
 });
 
+app.use(async (req,res,next) =>{
+    console.log("Before Routes");
+    try {
+        await next();
+    } catch(e){
+        console.log("After Error")
+    }
+    console.log("After Routes")
+});
+
+app.use(haltOnTimedout)
 const routes = require('./setup/routes');
 app.use('/',routes);
+app.use(haltOnTimedout)
 
 app.use((req,res,next) =>{
-    const error = new Error('Not found');
+    const error = new Error('Path Not found');
     error.status = 404;
     next(error);
 });
@@ -70,5 +86,9 @@ app.use((error,req,res,next) =>{
         }
     });
 });
+
+function haltOnTimedout (req, res, next) {
+    if (!req.timedout) next()
+}
 
 module.exports = app;
