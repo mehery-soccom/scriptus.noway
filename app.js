@@ -57,16 +57,6 @@ app.get('/',function(req,res) {
     res.send({ x : "Hello World!"});
 });
 
-app.use(async (req,res,next) =>{
-    console.log("Before Routes");
-    try {
-        await next();
-    } catch(e){
-        console.log("After Error")
-    }
-    console.log("After Routes")
-});
-
 app.use(haltOnTimedout)
 const routes = require('./setup/routes');
 app.use('/',routes);
