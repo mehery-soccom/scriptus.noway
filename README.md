@@ -1,4 +1,4 @@
-# bootjs-demo
+# scriptus.noway
 
 ## SETUP
 1. Run `npm install`
