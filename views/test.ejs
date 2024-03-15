@@ -10,29 +10,29 @@
 
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/notiphyapp/docs@latest/content/static/app/notiphy/bg-x-icon-y-b.png" />
 
-<title><%=APP_TITLE %></title>
+<title><%=CONST.APP_TITLE %></title>
 
-<% if(CDN_DEBUG){ %>
+<% if(CONST.CDN_DEBUG){ %>
 	<meta name=report content="<%=CDN_DEBUG %>">
 <% } else { %>
 	<link rel=stylesheet
 		href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
 	
 	<!-- // preload  css and js -->
-	<link href="<%=CDN_URL %>/app-www.js?_=<%=CDN_VERSION %>" rel=preload
+	<link href="<%=CONST.CDN_URL %>/app-www.js?_=<%=CONST.CDN_VERSION %>" rel=preload
 		as=script>
-	<link href="<%=CDN_URL %>/css/chunk-common.css?_=<%=CDN_VERSION %>"
+	<link href="<%=CONST.CDN_URL %>/css/chunk-common.css?_=<%=CONST.CDN_VERSION %>"
 		rel=preload as=style>
-	<link href="<%=CDN_URL %>/js/chunk-vendors.js?_=<%=CDN_VERSION %>"
+	<link href="<%=CONST.CDN_URL %>/js/chunk-vendors.js?_=<%=CONST.CDN_VERSION %>"
 		rel=preload as=script>
-	<link href="<%=CDN_URL %>/js/chunk-common.js?_=<%=CDN_VERSION %>"
+	<link href="<%=CONST.CDN_URL %>/js/chunk-common.js?_=<%=CONST.CDN_VERSION %>"
 		rel=preload as=script>
 		
 	<!-- // load  css -->
 	<link
-		href="<%=CDN_URL %>/css/chunk-vendors.css?_=<%=CDN_VERSION %>"
+		href="<%=CONST.CDN_URL %>/css/chunk-vendors.css?_=<%=CONST.CDN_VERSION %>"
 		rel=stylesheet>
-	<link href="<%=CDN_URL %>/css/chunk-common.css?_=<%=CDN_VERSION %>"
+	<link href="<%=CONST.CDN_URL %>/css/chunk-common.css?_=<%=CONST.CDN_VERSION %>"
 		rel=stylesheet />
 <% } %>
 
@@ -40,13 +40,12 @@
 
 <script>
 	window.CONST = {
-		dev : '<%=CDN_DEBUG %>',
-		CDN_URL : '<%=CDN_URL %>', //
-		APP : "<%=APP%>",APP_SITE: '<%=APP_SITE%>',APP_CONTEXT : '<%=APP_CONTEXT%>', 
-		remoteJsVersion :  '<%=CDN_VERSION %>', //
-		CONTEXT: '<%=APP_CONTEXT%>',
-		APP_DEPT : null, APP_USER_ROLE : [],
-		SESS: '<%-SESS%>'
+		dev : '<%=CONST.CDN_DEBUG %>',
+		CDN_URL : '<%=CONST.CDN_URL %>', //
+		APP : "<%=CONST.APP%>",APP_SITE: '<%=CONST.APP_SITE%>',APP_CONTEXT : '<%=CONST.APP_CONTEXT%>', 
+		remoteJsVersion :  '<%=CONST.CDN_VERSION %>', //
+		CONTEXT: '<%=CONST.APP_CONTEXT%>',
+		APP_DEPT : null, APP_USER_ROLE : []
 	};
 </script>
 </head>
@@ -57,14 +56,14 @@
 	</noscript>
 	<div id=app></div>
 	
-	<% if(CDN_DEBUG){ %> 
+	<% if(CONST.CDN_DEBUG){ %> 
   		<!-- // load  js if debug -->
-		<script src="<%=CDN_URL %>/app-www.js?_=<%=CDN_VERSION %>"></script>
+		<script src="<%=CONST.CDN_URL %>/app-www.js?_=<%=CONST.CDN_VERSION %>"></script>
 	<% } else { %>
   		<!-- // load  js if prod -->
-  	  	<script src="<%=CDN_URL %>/js/chunk-vendors.js?_=<%=CDN_VERSION %>"></script>
-  	  	<script src="<%=CDN_URL %>/js/chunk-common.js?_=<%=CDN_VERSION %>"></script>
-		<script src="<%=CDN_URL %>/app-www.js?_=<%=CDN_VERSION %>"></script>
+  	  	<script src="<%=CONST.CDN_URL %>/js/chunk-vendors.js?_=<%=CONST.CDN_VERSION %>"></script>
+  	  	<script src="<%=CONST.CDN_URL %>/js/chunk-common.js?_=<%=CONST.CDN_VERSION %>"></script>
+		<script src="<%=CONST.CDN_URL %>/app-www.js?_=<%=CONST.CDN_VERSION %>"></script>
 	<% } %>
 
 </body>

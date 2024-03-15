@@ -1,6 +1,5 @@
 const config = require('@bootloader/config');
 const fetch = require("node-fetch");
-const ngrokStore = config.store("ngrok");
 const httpProxyStore = config.store("http-proxy");
 var Queue = require('node-persistent-queue') ;
 const noway = require("./noway");
@@ -32,11 +31,12 @@ const clientapp = {
         let _apiKey = apiKey || config.get("mry.api.key");
         let _domain = domain || config.get("mry.domain");
         let endPoint = `https://${_domain}/xms/api/v1/config/webhook`
+        let NGROK_URL = config.getIfPresent("NGROK_URL");
         //let endPoint = ngrokStore.url+'/noway/ping'
         console.log("_apiKey",_apiKey)
         console.log("_domain",_domain)
         console.log("endPoint",endPoint)
-        console.log("ngrokStore.url",ngrokStore.url)
+        console.log("NGROK_URL",NGROK_URL)
         return fetch(endPoint, {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
@@ -51,7 +51,7 @@ const clientapp = {
             redirect: "follow", // manual, *follow, error
             referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify({
-              "url": ngrokStore.url + "/noway/xms/inbound/webhook",
+              "url": NGROK_URL + "/noway/xms/inbound/webhook",
               "headers": {
               }
             }), // body data type must match "Content-Type" header
